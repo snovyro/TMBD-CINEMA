@@ -102,8 +102,12 @@ const Card = (props) => {
         </div>
       ) : (
         <div>
-          <div className="w-48 h-[280px]">
-            <img className="w-48 h-full object-cover" src={image} alt={name} />
+          <div className="w-full sm:w-48  h-[280px]">
+            <img
+              className="w-full sm:w-48  h-full object-cover"
+              src={image}
+              alt={name}
+            />
           </div>
           <div className="text-gray p-3.5 gap-1 flex flex-col">
             <p
