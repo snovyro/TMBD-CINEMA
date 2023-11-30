@@ -298,7 +298,7 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        <div className="px-12 sm:px-24 py-12 sm:pb-12">
+        <div className="px-12 sm:px-24 py-12 sm:py-0">
           <p className="text-3xl font-semibold pb-8">Now Playing</p>
           <div className="flex gap-8 w-full pb-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray">
             {nowPlaying.map((movie) => (
