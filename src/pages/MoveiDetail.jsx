@@ -9,7 +9,7 @@ import AccountSelection from "./AccountSelection";
 
 const MovieDetail = () => {
   const [movieDetail, setMovieDetail] = useState({});
-  const [movieRecomendation, setMovieRecomendation] = useState([]);
+  const [movieRecommendation, setmovieRecommendation] = useState([]);
   const [userData, setUserData] = useState({});
   const [isWatchlisted, setIsWatchlisted] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -57,14 +57,14 @@ const MovieDetail = () => {
       }
     };
 
-    const getMovieRecomendation = async () => {
+    const getmovieRecommendation = async () => {
       try {
         const response = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${
             import.meta.env.VITE_API_KEY
           }`
         );
-        setMovieRecomendation(response.data.results);
+        setmovieRecommendation(response.data.results);
       } catch (error) {
         toast.error(error.message);
       }
@@ -119,7 +119,7 @@ const MovieDetail = () => {
 
     getSessionId();
     getMovieDetail();
-    getMovieRecomendation();
+    getmovieRecommendation();
     getUserData();
     getFavorite();
     getWatchlist();
@@ -537,27 +537,34 @@ const MovieDetail = () => {
           <p className="text-justify">{movieDetail.overview}</p>
         </div>
       </div>
-      <div className="px-12 sm:px-24 sm:py-12">
-        <p className="text-3xl font-semibold py-8">Recomendations</p>
-        <div className="flex gap-8 sm:gap-[1.64rem] w-full flex-wrap justify-center sm:justify-start">
-          {movieRecomendation.map((movie) => (
-            <Card
-              key={movie.id}
-              name={limitChar(movie.title, 15)}
-              year={movie.release_date}
-              image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-              redirectDetail={() => handleRedirectDetail(movie.id)}
-              isLoggedIn={isLoggedIn}
-              addToFavorite={() => addToFavorite(movie.id)}
-              addToWatchlist={() => addToWatchlist(movie.id)}
-              removeFromFavorite={() => removeFromFavorite(movie.id)}
-              removeFromWatchlist={() => removeFromWatchlist(movie.id)}
-              isWatchlisted={watchlist.some((item) => item.id === movie.id)}
-              isFavorited={favorite.some((item) => item.id === movie.id)}
-            />
-          ))}
+      {movieRecommendation && movieRecommendation.length > 0 ? (
+        <div className="px-12 sm:px-24 sm:py-12">
+          <p className="text-3xl font-semibold pb-8">Recommendations</p>
+          <div className="flex gap-8 sm:gap-[1.64rem] w-full flex-wrap justify-center sm:justify-start">
+            {movieRecommendation.map((movie) => (
+              <Card
+                key={movie.id}
+                name={limitChar(movie.title, 15)}
+                year={movie.release_date}
+                image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                redirectDetail={() => handleRedirectDetail(movie.id)}
+                isLoggedIn={isLoggedIn}
+                addToFavorite={() => addToFavorite(movie.id)}
+                addToWatchlist={() => addToWatchlist(movie.id)}
+                removeFromFavorite={() => removeFromFavorite(movie.id)}
+                removeFromWatchlist={() => removeFromWatchlist(movie.id)}
+                isWatchlisted={watchlist.some((item) => item.id === movie.id)}
+                isFavorited={favorite.some((item) => item.id === movie.id)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="w-full text-center py-48">
+          <p>Movie Recommendation Not Available</p>
+          <p className="text-xs pt-1">(find another movie)</p>
+        </div>
+      )}
       <ToastContainer />
     </div>
   );
